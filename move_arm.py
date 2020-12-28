@@ -3,7 +3,7 @@ import time
 import numpy as np
 
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 
 init_msg = 'moveToInit\n'
@@ -17,6 +17,10 @@ move_to_green_bin_msg = 'moveToGreenBin\n'
 move_to_blue_bin_msg = 'moveToBlueBin\n'
 move_to_yellow_bin_msg = 'moveToYellowBin\n'
 move_down_msg = 'moveDown\n'
+
+
+offset_x = -10
+offset_y = -20
 
 
 def setAngle(ser, msg, timeout):
@@ -71,34 +75,44 @@ if __name__ == '__main__':
                 
                 setAngle(ser, init_msg, 1)
                 
-                setAngle(ser, str(x_dist) + ':BASE@\n', 1)
+                setAngle(ser, str(x_dist + offset_x) + ':BASE@\n', 1)
                 
                 setAngle(ser, str(y_dist) + ':ELBOW@\n', 1)
                 
-                setAngle(ser, str(y_dist) + ':SHOULDER@\n', 1)
+                setAngle(ser, str(y_dist + offset_y) + ':SHOULDER@\n', 1)
                 
-                setAngle(ser, roll_msg, 1)
-                
-                setAngle(ser, pitch_msg, 1)
-    
-                setAngle(ser, wrist_msg, 1)
+                #setAngle(ser, roll_msg, 1)
                 
                 setAngle(ser, open_gripper_msg, 1)
                 
-                setAngle(ser, move_down_msg, 1)
+                #NOTE: 25diff == 5z, 0diff == 0z
+                diff = 90 - x_dist
+                offset_z = diff // 5
                 
-                setAngle(ser, close_gripper_msg, 0.5)
+                #setAngle(ser, pitch_msg, 1)
+                setAngle(ser, str(y_dist + offset_y - offset_z - 10) + ':PITCH@\n', 1)
+    
+                #setAngle(ser, wrist_msg, 1)
                 
-                if color == 'red\n':
-                    setAngle(ser, move_to_red_bin_msg, 1)
-                elif color == 'green\n':
-                    setAngle(ser, move_to_green_bin_msg, 1)
-                elif color == 'blue\n':
-                    setAngle(ser, move_to_blue_bin_msg, 1)
-                else:
-                    pass
+                #setAngle(ser, move_down_msg, 1)
+                setAngle(ser, str(y_dist + offset_y - offset_z) + ':ELBOW@\n', 1)
                 
-                time.sleep(2)
+                setAngle(ser, str(y_dist + offset_y + offset_z) + ':SHOULDER@', 1)
+                
+                setAngle(ser, close_gripper_msg, 1)
+                
+#                 if color == 'red\n':
+#                     setAngle(ser, move_to_red_bin_msg, 1)
+#                 elif color == 'green\n':
+#                     setAngle(ser, move_to_green_bin_msg, 1)
+#                 elif color == 'blue\n':
+#                     setAngle(ser, move_to_blue_bin_msg, 1)
+#                 else:
+#                     pass
+
+                setAngle(ser, move_to_red_bin_msg, 1)
+                
+                time.sleep(4)
                 
                 setAngle(ser, init_msg, 1)
                 

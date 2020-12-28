@@ -25,13 +25,14 @@ void moveToInit() {
   setAngle(5, SHOULDER);
   setAngle(160, ELBOW);
   setAngle(100, ROLL);
-  setAngle(50 ,PITCH);
+  setAngle(0 ,PITCH);
   setAngle(100, WRIST);
   setAngle(100, GRIPPER);
 }
 
 void moveToBin(String color) {
   setAngle(90,ELBOW);
+  delay(500);
   if (color == "red") {
     setAngle(200, BASE);
   } else if (color == "green") {
@@ -42,8 +43,6 @@ void moveToBin(String color) {
     setAngle(125, BASE);
   } else {}
   setAngle(45, ELBOW);
-  delay(1200);
-  setAngle(650, GRIPPER);
 }
 
 void setup() {
@@ -90,7 +89,8 @@ void loop() {
       } else if (data == "moveToYellowBin") {
           moveToBin("yellow");
       } else if (data == "moveDown") {
-          setAngle(10 * cos((x_dist * PI)/180), ELBOW);
+          //setAngle(10 * cos((x_dist * PI)/180), ELBOW);
+          setAngle(y_dist - 10, ELBOW);
       } else {
           int index = data.indexOf(":");
           int degree = data.substring(0, index).toInt();
@@ -103,8 +103,13 @@ void loop() {
             y_dist = degree;
             setAngle(y_dist, ELBOW);
           } else if (servo == "SHOULDER") {
-            y_dist = degree;
-            setAngle(y_dist, SHOULDER);
+            setAngle(degree, SHOULDER);
+          } else if (servo == "PITCH") {
+            setAngle(degree, PITCH);
+          } else if (servo == "ROLL") {
+            setAngle(degree, ROLL);
+          } else if (servo == "WRIST") {
+            setAngle(degree, WRIST);
           } else {}
       }
       Serial.print("You Sent Me: ");

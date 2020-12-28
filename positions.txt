@@ -1,4 +1,4 @@
-389 170 red
-294 175 green
-503 227 blue
-180 207 yellow
+139 198 red
+402 146 green
+263 139 blue
+519 190 yellow

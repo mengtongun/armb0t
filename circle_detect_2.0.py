@@ -32,7 +32,7 @@ rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
 while True:
     # grab the current frame
     (grabbed, frame) = camera.read()
-    frame = cv2.flip(frame, 0)
+    frame = cv2.flip(frame, 1)
  
     #IP webcam image stream 
     #URL = 'http://10.254.254.102:8080/shot.jpg'
@@ -88,14 +88,14 @@ while True:
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
-        break
+        
     
-    if rgby_circles['red'] != None and rgby_circles['green'] != None and rgby_circles['blue'] != None and rgby_circles['yellow'] != None:
+    #if rgby_circles['red'] != None and rgby_circles['green'] != None and rgby_circles['blue'] != None and rgby_circles['yellow'] != None:
         #time.sleep(30)
         
         cv2.destroyAllWindows()
         image = cv2.imread('/home/pi/camera/OpenCV_detection/ServoRotation/Version2_0/image.jpg')
-        image = cv2.flip(image, 0)
+        image = cv2.flip(image, 1)
         for key, value in rgby_circles.items():
             center = rgby_circles[key].split(' ')
             cv2.circle(image, (int(center[0]), int(center[1])), 20, colors[key], 2)

@@ -17,6 +17,6 @@ echo "Finished Detecting Circles..."
 
 # move the robot_arm to the desired position
 echo "Moving Robot Arm..."
-#python3 /home/pi/camera/OpenCV_detection/ServoRotation/Version2_0/move_arm.py
-python3 /home/pi/camera/OpenCV_detection/ServoRotation/Version2_0/test.py
+python3 /home/pi/camera/OpenCV_detection/ServoRotation/Version2_0/move_arm.py
+#python3 /home/pi/camera/OpenCV_detection/ServoRotation/Version2_0/test.py
 echo "Finished..."

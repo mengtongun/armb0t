@@ -94,8 +94,17 @@ if __name__ == '__main__':
                 setAngle(ser, str(MAGIC_NUM - 10) + ':ELBOW@', 1)
                 
                 setAngle(ser, close_gripper_msg, 1)
-
-                setAngle(ser, move_to_red_bin_msg, 1)
+                
+                if color == 'red':
+                    setAngle(ser, move_to_red_bin_msg, 1)
+                elif color == 'green':
+                    setAngle(ser, move_to_green_bin_msg, 1)
+                elif color == 'blue':
+                    setAngle(ser, move_to_blue_bin_msg, 1)
+                elif color == 'yellow':
+                    setAngle(ser, move_to_yellow_bin_msg, 1)
+                else:
+                    pass
                 
                 setAngle(ser, open_gripper_msg, 1)
                 

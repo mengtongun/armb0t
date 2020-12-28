@@ -6,27 +6,6 @@ import numpy as np
 DEBUG_MODE = True
 
 
-init_msg = 'moveToInit\n'
-open_gripper_msg = 'openGripper\n'
-close_gripper_msg = 'closeGripper\n'
-roll_msg = 'setRoll\n'
-pitch_msg = 'setPitch\n'
-wrist_msg = 'setWrist\n'
-move_to_red_bin_msg = 'moveToRedBin\n'
-move_to_green_bin_msg = 'moveToGreenBin\n'
-move_to_blue_bin_msg = 'moveToBlueBin\n'
-move_to_yellow_bin_msg = 'moveToYellowBin\n'
-move_down_msg = 'moveDown\n'
-
-
-#offset_x = -10
-#offset_y = -20
-
-MAGIC_NUM = 15
-#OFFSET_RIGHT = 10
-#OFFSET_LEFT = 30
-
-
 def setAngle(ser, msg, timeout):
     ser.write(msg.encode())
     time.sleep(timeout)

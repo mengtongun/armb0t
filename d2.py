@@ -23,11 +23,13 @@ colors = {'red': (0, 0, 255), 'green': (0, 255, 0),
 
 rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
 
+t = input("Enter a color: ")
+image_path = t + '.jpg'
 # keep looping
 while True:
     # grab the current frame
-    frame = cv2.imread('image.jpg')
-    # frame = cv2.flip(frame, 1)
+    frame = cv2.imread(image_path)
+    frame = cv2.flip(frame, 1)
 
     # blur the frame, and convert it to the HSV
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
@@ -103,11 +105,13 @@ while True:
                     break
             break
         elif key == ord('n'):
+            print(rgby_circles)
             rgby_circles = {'red': None, 'green': None,
                             'blue': None, 'yellow': None}
             cv2.destroyAllWindows()
             time.sleep(1)
-            continue
+            break
+            # continue
         else:
             pass
 

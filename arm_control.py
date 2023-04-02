@@ -19,9 +19,9 @@ move_down_msg = 'moveDown\n'
 #offset_x = -10
 #offset_y = -20
 
-MAGIC_NUM = 15
-#OFFSET_RIGHT = 10
-#OFFSET_LEFT = 30
+MAGIC_NUM = 55
+OFFSET_RIGHT = 10
+OFFSET_LEFT = 30
 
 
 def convert(max_px, xy, max_degree):
@@ -36,21 +36,24 @@ def setAngle(ser, msg, timeout):
     time.sleep(timeout)
 
 
+debug = True
+
+
 def move_arm_bot(x, y, color):
-    x_dist = convert(640, x, 180)
-    y_dist = convert(480, y, 90)
+    x_dist = x
+    y_dist = y
     print('x_dist: ', x_dist)
     print('y_dist: ', y_dist)
     print('color: ', color)
-    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+    ser = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=1)
     ser.flush()
     setAngle(ser, init_msg, 1)
 
     #setAngle(ser, str(x_dist + 7) + ':BASE@', 1)
     if x_dist <= 90:
-        setAngle(ser, str(x_dist + 5) + ':BASE@', 1)
+        setAngle(ser, str(x_dist+OFFSET_LEFT) + ':BASE@', 1)
     else:
-        setAngle(ser, str(x_dist - 3) + ':BASE@', 1)
+        setAngle(ser, str(x_dist - OFFSET_RIGHT) + ':BASE@', 1)
 
     setAngle(ser, str(MAGIC_NUM) + ':ELBOW@', 1)
 
@@ -58,7 +61,7 @@ def move_arm_bot(x, y, color):
 
     setAngle(ser, str(MAGIC_NUM) + ':SHOULDER@', 1)
 
-    setAngle(ser, str(MAGIC_NUM - 10) + ':ELBOW@', 1)
+    setAngle(ser, str(MAGIC_NUM - 5) + ':ELBOW@', 1)
 
     setAngle(ser, close_gripper_msg, 1)
 

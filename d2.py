@@ -99,7 +99,7 @@ while True:
             for key, value in rgby_circles.items():
                 if (value != None):
                     print(value, key)
-                    # ac.move_arm_bot(value[0], value[1], key)
+                    ac.move_arm_bot(value[0], value[1], key)
                     break
             break
         elif key == ord('n'):

@@ -2,6 +2,7 @@
 import numpy as np
 import cv2
 import time
+import arm_control as ac
 
 
 def convert(max_px, xy, max_degree):
@@ -98,6 +99,8 @@ while True:
             for key, value in rgby_circles.items():
                 if (value != None):
                     print(value, key)
+                    ac.move_arm_bot(value[0], value[1], key)
+                    break
             break
         elif key == ord('n'):
             rgby_circles = {'red': None, 'green': None,

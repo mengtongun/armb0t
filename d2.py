@@ -27,7 +27,7 @@ rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
 while True:
     # grab the current frame
     frame = cv2.imread('image.jpg')
-    frame = cv2.flip(frame, 1)
+    # frame = cv2.flip(frame, 1)
 
     # blur the frame, and convert it to the HSV
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)

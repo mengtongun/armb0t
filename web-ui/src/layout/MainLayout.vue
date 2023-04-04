@@ -31,7 +31,7 @@
     </v-navigation-drawer>
 
     <v-main>
-      <v-container class="py-8 px-6 overflow-y-auto" fluid>
+      <v-container class="py-8 px-6 overflow-y-auto chat-box" fluid>
         <v-row>
           <v-col cols="12">
             <v-card>
@@ -76,6 +76,7 @@
         <v-row align="center">
           <v-col cols="10 pl-16">
             <v-text-field
+              :disabled="loading"
               v-model="userInput"
               label="Enter your message"
               @keyup.enter="sendMessage"
@@ -93,13 +94,11 @@
 <script setup >
 import { ref } from "vue";
 import {
-  completion,
-  decideColor,
-  decideQuestionStartEngine,
-  decideToMoveToBase,
-  editModel,
+  decideQuestions,
+  movingToBaseResponse,
+  startingEngineResponse,
 } from "@/services/chatgpt";
-import { openai } from "@/services/chatgpt";
+import { MOVE_BASE, START_ENGINE } from "@/services/choice";
 const links = ref([
   ["mdi-inbox-arrow-down", "Inbox"],
   ["mdi-send", "Send"],
@@ -109,7 +108,7 @@ const links = ref([
 const drawer = ref(null);
 const messages = ref([]);
 const userInput = ref("");
-
+const loading = ref(false);
 const sendMessage = () => {
   if (!userInput.value) return;
 
@@ -119,31 +118,45 @@ const sendMessage = () => {
     content: userInput.value,
   });
 
-  setTimeout(() => {
-    messages.value.push({
-      id: messages.value.length,
-      from: "bot",
-      content: "Hello! How can I assist you today?",
-    });
-  }, 500);
   console.log(userInput.value);
+  loading.value = true;
 
-  // decideColor(userInput.value).then((res) => {
-  //   console.log(res);
-  //   messages.value.push({
-  //     id: messages.value.length,
-  //     from: "bot",
-  //     content: res,
-  //   });
-  // });
-  decideToMoveToBase(userInput.value).then((res) => {
-    console.log(res);
-    messages.value.push({
-      id: messages.value.length,
-      from: "bot",
-      content: res,
+  decideQuestions(userInput.value)
+    .then((res) => {
+      console.log(res);
+      // messages.value.push({
+      //   id: messages.value.length,
+      //   from: "bot",
+      //   content: res,
+      // });
+      switch (res) {
+        case START_ENGINE:
+          startingEngineResponse().then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
+        case MOVE_BASE:
+          movingToBaseResponse().then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
+        default:
+          break;
+      }
+    })
+    .finally(() => {
+      loading.value = false;
     });
-  });
 
   userInput.value = "";
 };
@@ -157,5 +170,9 @@ const sendMessage = () => {
   right: 0;
   background-color: white;
   padding: 16px;
+}
+.chat-box {
+  padding-bottom: 150px;
+  margin-bottom: 150px;
 }
 </style>

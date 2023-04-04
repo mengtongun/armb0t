@@ -3,6 +3,8 @@ import serial
 import time
 import numpy as np
 
+SERIAL_PORT = '/dev/tty.usbmodem1201'
+
 init_msg = 'moveToInit\n'
 open_gripper_msg = 'openGripper\n'
 close_gripper_msg = 'closeGripper\n'
@@ -46,7 +48,7 @@ def move_arm_bot(x, y, color):
         print('x_dist: ', x_dist)
         print('y_dist: ', y_dist)
         print('color: ', color)
-        ser = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=1)
+        ser = serial.Serial(SERIAL_PORT, 9600, timeout=1)
         ser.flush()
         setAngle(ser, init_msg, 1)
 
@@ -91,8 +93,27 @@ def move_arm_bot(x, y, color):
 
 def move_to_base():
     try:
-        ser = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=1)
+        ser = serial.Serial(SERIAL_PORT, 9600, timeout=1)
         ser.flush()
+        setAngle(ser, init_msg, 1)
+        return True
+    except:
+        return False
+
+
+def pick_red_static():
+    try:
+        ser = serial.Serial(SERIAL_PORT, 9600, timeout=1)
+        ser.flush()
+        setAngle(ser, init_msg, 1)
+        setAngle(ser, str(90) + ':BASE@', 1)
+        setAngle(ser, str(MAGIC_NUM) + ':ELBOW@', 1)
+        setAngle(ser, open_gripper_msg, 1)
+        setAngle(ser, str(MAGIC_NUM) + ':SHOULDER@', 1)
+        setAngle(ser, str(MAGIC_NUM - 5) + ':ELBOW@', 1)
+        setAngle(ser, close_gripper_msg, 1)
+        setAngle(ser, move_to_red_bin_msg, 1)
+        setAngle(ser, open_gripper_msg, 1)
         setAngle(ser, init_msg, 1)
         return True
     except:

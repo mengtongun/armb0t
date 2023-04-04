@@ -2,8 +2,23 @@ import threading
 import numpy as np
 import cv2
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
+
+origins = [
+    "http://localhost",
+    "http://localhost:3001",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 lower = {'red': (166, 84, 141), 'green': (66, 122, 129),
          'blue': (97, 100, 117), 'yellow': (23, 59, 119)}

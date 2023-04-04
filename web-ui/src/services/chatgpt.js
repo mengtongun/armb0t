@@ -39,8 +39,8 @@ export const aiResponse = async (prompt) => {
 export const decideQuestions = async (prompt) => {
   return aiResponse(
     `Decide whether a User\'s is asking to start engine. then reply with engine:true
+    else if a User\'s ask the bot to choose or pick or grab color in this "blue,red,green". then reply with this format color:{color} only in lowercase and if the color in not in the list then generate prompt again with clearly explain that color is not detected by camera ai.
     else if a User\'s is asking to move arm. then reply with this format arm:true
-    else if a User\'s ask the bot to choose color in this. then reply with this format color:{color}
     else if a User\'s is asking the robot arm to move to base. then reply with base:true
     else generate good explain the user to prompt again.
     \n\nUser: "${prompt}"\n\n`
@@ -56,5 +56,11 @@ export const startingEngineResponse = async () => {
 export const movingToBaseResponse = async () => {
   return aiResponse(
     "Generate good explain for the context that the robot arm is moving to base."
+  );
+};
+
+export const pickingRedColorResponse = async (color) => {
+  return aiResponse(
+    `Generate good explain for the context that the robot arm is picking ${color} color.`
   );
 };

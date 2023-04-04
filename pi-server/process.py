@@ -1,3 +1,4 @@
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Union
 
 from fastapi import FastAPI
@@ -6,6 +7,19 @@ import requests as req
 import time
 app = FastAPI()
 piCameraServer = 'http://localhost:3002'
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/")
@@ -33,8 +47,11 @@ def to_base():
 
 @app.post('/move-arm-bot')
 def move_arm_bot(x: int, y: int, color: str):
-    arm.move_arm_bot(x, y, color)
-    return {'msg': 'success'}
+    isMoving = arm.move_arm_bot(x, y, color)
+    if isMoving:
+        return {'msg': 'isMoving'}
+    else:
+        return {'msg': 'error'}
 
 
 @app.get('/pick-red')
@@ -43,9 +60,10 @@ def pick_red():
     rgby = data.json()
     print(rgby)
     if rgby['red'] is not None:
-        isMoving = arm.move_arm_bot(rgby['red'][0], rgby['red'][1], 'red')
+        # isMoving = arm.move_arm_bot(rgby['red'][0], rgby['red'][1], 'red')
+        isMoving = arm.pick_red_static()
         if isMoving:
-            return {'msg': 'success'}
+            return {'msg': 'isMoving'}
         else:
             return {'msg': 'error'}
     else:

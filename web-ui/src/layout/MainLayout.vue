@@ -83,7 +83,9 @@
             ></v-text-field>
           </v-col>
           <v-col cols="2">
-            <v-btn @click="sendMessage">Send</v-btn>
+            <v-btn :disabled="loading" :loading="loading" @click="sendMessage"
+              >Send</v-btn
+            >
           </v-col>
         </v-row>
       </v-container>
@@ -96,9 +98,18 @@ import { ref } from "vue";
 import {
   decideQuestions,
   movingToBaseResponse,
+  pickingRedColorResponse,
   startingEngineResponse,
 } from "@/services/chatgpt";
-import { MOVE_BASE, START_ENGINE } from "@/services/choice";
+import {
+  MOVE_BASE,
+  PICK_BLUE,
+  PICK_GREEN,
+  PICK_RED,
+  PICK_YELLOW,
+  START_ENGINE,
+} from "@/services/choice";
+import { detectedColors } from "@/services/detection";
 const links = ref([
   ["mdi-inbox-arrow-down", "Inbox"],
   ["mdi-send", "Send"],
@@ -120,15 +131,12 @@ const sendMessage = () => {
 
   console.log(userInput.value);
   loading.value = true;
-
+  detectedColors().then((c) => {
+    console.log(c);
+  });
   decideQuestions(userInput.value)
     .then((res) => {
       console.log(res);
-      // messages.value.push({
-      //   id: messages.value.length,
-      //   from: "bot",
-      //   content: res,
-      // });
       switch (res) {
         case START_ENGINE:
           startingEngineResponse().then((res) => {
@@ -150,11 +158,57 @@ const sendMessage = () => {
             });
           });
           break;
+        case PICK_RED:
+          pickingRedColorResponse("red").then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
+        case PICK_BLUE:
+          pickingRedColorResponse("blue").then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
+        case PICK_YELLOW:
+          pickingRedColorResponse("yellow").then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
+        case PICK_GREEN:
+          pickingRedColorResponse("green").then((res) => {
+            console.log(res);
+            messages.value.push({
+              id: messages.value.length,
+              from: "bot",
+              content: res,
+            });
+          });
+          break;
         default:
+          messages.value.push({
+            id: messages.value.length,
+            from: "bot",
+            content: res,
+          });
           break;
       }
     })
     .finally(() => {
+      setTimeout(() => {}, 1000);
       loading.value = false;
     });
 

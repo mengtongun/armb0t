@@ -2,8 +2,8 @@
 import numpy as np
 import cv2
 import time
-import arm_control as ac
-
+# import arm_control as ac
+import new_move_arm as move_arm
 
 def convert(max_px, xy, max_degree):
     return (xy * max_degree) // max_px
@@ -77,29 +77,14 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
 
-        # if rgby_circles['red'] != None and rgby_circles['green'] != None and rgby_circles['blue'] != None and rgby_circles['yellow'] != None:
-        #     time.sleep(30)
-
-        # cv2.destroyAllWindows()
-        # image = cv2.imread('image.jpg')
-        # image = cv2.flip(image, 1)
-        # for key, value in rgby_circles.items():
-        # print(value, key)
-        # center = rgby_circles[key].split(' ')
-        # cv2.circle(image, (int(center[0]), int(
-        #     center[1])), 20, colors[key], 2)
-        # cv2.putText(image, key + " ball", (int(center[0]) - 20, int(
-        #     center[1]) - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colors[key], 2)
-
-        # cv2.imshow('Image', image)
-
         key = cv2.waitKey(0) & 0xFF
         # if the 'q' key is pressed, stop the loop
         if key == ord('y'):
             for key, value in rgby_circles.items():
                 if (value != None):
                     print(value, key)
-                    ac.move_arm_bot(value[0], value[1], key)
+                    move_arm.control_arm_by_color(key)
+                    # ac.move_arm_bot(value[0], value[1], key)
                     continue
             break
         elif key == ord('n'):

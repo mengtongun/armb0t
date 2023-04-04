@@ -77,7 +77,7 @@ while True:
     # show the frame to our screen
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
-    if key == ord('q'):
+    if key == ord('y'):
 
         if rgby_circles['red'] != None and rgby_circles['green'] != None and rgby_circles['blue'] != None and rgby_circles['yellow'] != None:
             time.sleep(30)
@@ -95,7 +95,7 @@ while True:
 
         #     cv2.imshow('Image', image)
 
-        key = cv2.waitKey(0) & 0xFF
+        # key = cv2.waitKey(0) & 0xFF
         # if the 'q' key is pressed, stop the loop
         if key == ord('y'):
             for key, value in rgby_circles.items():

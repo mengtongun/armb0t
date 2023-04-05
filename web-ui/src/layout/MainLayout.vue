@@ -102,11 +102,13 @@ import {
   startingEngineResponse,
 } from "@/services/chatgpt";
 import {
+  moveToRedBin,
   MOVE_BASE,
   PICK_BLUE,
   PICK_GREEN,
   PICK_RED,
   PICK_YELLOW,
+  startPickRed,
   START_ENGINE,
 } from "@/services/choice";
 import { detectedColors } from "@/services/detection";
@@ -134,9 +136,13 @@ const sendMessage = () => {
   detectedColors().then((c) => {
     console.log(c);
   });
+  if (userInput.value == "move red") {
+    moveToRedBin();
+    return;
+  }
   decideQuestions(userInput.value)
     .then((res) => {
-      console.log(res);
+      console.log("Response form chatgpt", res);
       switch (res) {
         case START_ENGINE:
           startingEngineResponse().then((res) => {
@@ -159,12 +165,12 @@ const sendMessage = () => {
           });
           break;
         case PICK_RED:
-          pickingRedColorResponse("red").then((res) => {
-            console.log(res);
+          pickingRedColorResponse("red").then((resRed) => {
+            startPickRed();
             messages.value.push({
               id: messages.value.length,
               from: "bot",
-              content: res,
+              content: resRed,
             });
           });
           break;

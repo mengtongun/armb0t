@@ -70,6 +70,15 @@ def pick_red():
         return {'msg': 'color not found'}
 
 
+@app.get('/red-bin')
+def move_red_bin():
+    isMoving = arm.move_to_red_bin()
+    if isMoving:
+        return {'msg': 'isMoving'}
+    else:
+        return {'msg': 'error'}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("process:app", host="0.0.0.0",

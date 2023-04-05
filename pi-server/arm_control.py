@@ -3,7 +3,7 @@ import serial
 import time
 import numpy as np
 
-SERIAL_PORT = '/dev/tty.usbmodem1201'
+SERIAL_PORT = '/dev/tty.usbmodem1101'
 
 init_msg = 'moveToInit\n'
 open_gripper_msg = 'openGripper\n'
@@ -115,6 +115,15 @@ def pick_red_static():
         setAngle(ser, move_to_red_bin_msg, 1)
         setAngle(ser, open_gripper_msg, 1)
         setAngle(ser, init_msg, 1)
+        return True
+    except:
+        return False
+
+
+def move_to_red_bin():
+    try:
+        ser = serial.Serial(SERIAL_PORT, 9600, timeout=1)
+        setAngle(ser, move_to_red_bin_msg, 1)
         return True
     except:
         return False

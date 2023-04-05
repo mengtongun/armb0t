@@ -9,3 +9,9 @@ export const PICK_YELLOW = "color:yellow";
 export const replyStartEngine = async (prompt) => {
   return prompt.toLowerCase().includes("start engine");
 };
+
+export const startPickRed = async () =>
+  await fetch("http://localhost:3001/pick-red");
+
+export const moveToRedBin = async () =>
+  await fetch("http://localhost:3001/red-bin");

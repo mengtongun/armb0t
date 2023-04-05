@@ -45,7 +45,7 @@ def move_arm_bot(x, y, color):
     print('x_dist: ', x_dist)
     print('y_dist: ', y_dist)
     print('color: ', color)
-    ser = serial.Serial('/dev/tty.usbmodem1201', 9600, timeout=1)
+    ser = serial.Serial('/dev/tty.usbmodem1101', 9600, timeout=1)
     ser.flush()
     setAngle(ser, init_msg, 1)
 

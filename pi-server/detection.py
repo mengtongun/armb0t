@@ -36,21 +36,21 @@ camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 # def convert(size, coord, fov):
 #     return np.tan(coord/size*fov/2/180*np.pi)*2
 
-# def convert(max_px, xy, max_degree):
-#     return (xy * max_degree) // max_px
+def convert(max_px, xy, max_degree):
+    return (xy * max_degree) // max_px
 
-def convert(size, coord, fov):
-    """
-    Convert pixel coordinate to distance from center of screen in cm.
-    :param size: size of the image in pixels (width or height)
-    :param coord: coordinate of the object in pixels (x or y)
-    :param fov: camera field of view in degrees
-    :return: distance from center of screen in cm
-    """
-    half_fov_radians = fov / 2 / 180 * \
-        np.pi  # convert degrees to radians and divide by 2
-    pixel_size_cm = 0.026458333  # assuming 640x480 camera and 52.0 horizontal FOV
-    return np.tan((coord - size / 2) * pixel_size_cm / 2 / 100 * half_fov_radians) * 100
+# def convert(size, coord, fov):
+#     """
+#     Convert pixel coordinate to distance from center of screen in cm.
+#     :param size: size of the image in pixels (width or height)
+#     :param coord: coordinate of the object in pixels (x or y)
+#     :param fov: camera field of view in degrees
+#     :return: distance from center of screen in cm
+#     """
+#     half_fov_radians = fov / 2 / 180 * \
+#         np.pi  # convert degrees to radians and divide by 2
+#     pixel_size_cm = 0.026458333  # assuming 640x480 camera and 52.0 horizontal FOV
+#     return np.tan((coord - size / 2) * pixel_size_cm / 2 / 100 * half_fov_radians) * 100
 
 
 def detect_colors():

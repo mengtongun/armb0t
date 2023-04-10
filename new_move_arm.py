@@ -48,21 +48,21 @@ def convert(max_px, xy, max_degree):
 
 
 def static_move_to_grip_object():
-    setMessage(ser, str(90) + ':ELBOW@', 1)
+    setMessage(ser, str(90) + ':ELBOW@', 0.4)
 
-    setMessage(ser, open_gripper_msg, 1)
+    # setMessage(ser, open_gripper_msg, 1)
 
-    setMessage(ser, str(65) + ':SHOULDER@', 1)
+    setMessage(ser, str(65) + ':SHOULDER@', 0.4)
 
     # setMessage(ser, str(MAGIC_NUM - 10) + ':ELBOW@', 1)
-    setMessage(ser, str(60) + ':ELBOW@', 1)
-    setMessage(ser, str(70) + ':SHOULDER@', 1)
+    setMessage(ser, str(60) + ':ELBOW@', 0.4)
+    setMessage(ser, str(70) + ':SHOULDER@', 0.4)
     # setMessage(ser, str(90) + ':ELBOW@', 1)
 
-    setMessage(ser, close_gripper_msg, 1)
+    setMessage(ser, close_gripper_msg, 0.4)
 
-    setMessage(ser, str(120) + ':ELBOW@', 1)
-    setMessage(ser, str(50) + ':SHOULDER@', 1)
+    setMessage(ser, str(90) + ':ELBOW@', 0.4)
+    setMessage(ser, str(50) + ':SHOULDER@', 0.4)
 
 
 def control_arm_by_color(color):
@@ -73,54 +73,56 @@ def control_arm_by_color(color):
     # ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     # ser.flush()
 
-    setMessage(ser, init_msg, 1)
+    setMessage(ser, init_msg, 0.4)
+
+    # setMessage(ser, close_gripper_msg, 1)
 
     if color == "red":
 
         # define static base angel for RED color
-        setMessage(ser, str(50) + ':BASE@', 1)
+        setMessage(ser, str(50) + ':BASE@', 0.4)
 
         static_move_to_grip_object()
 
         # move to RED BIN
-        setMessage(ser, move_to_red_bin_msg, 1)
+        setMessage(ser, move_to_red_bin_msg, 0.4)
 
     elif color == "green":
 
         # define static base angel for GREEN color
-        setMessage(ser, str(70) + ':BASE@', 1)
+        setMessage(ser, str(70) + ':BASE@', 0.4)
 
         static_move_to_grip_object()
 
         # move to GREEN BIN
-        setMessage(ser, move_to_green_bin_msg, 1)
+        setMessage(ser, move_to_green_bin_msg, 0.4)
 
     elif color == "yellow":
 
         # define static base angel for YELLOW color
-        setMessage(ser, str(110) + ':BASE@', 1)
+        setMessage(ser, str(110) + ':BASE@', 0.4)
 
         static_move_to_grip_object()
 
         # move to YELLOW BIN
-        setMessage(ser, move_to_yellow_bin_msg, 1)
+        setMessage(ser, move_to_yellow_bin_msg, 0.4)
 
     elif color == "blue":
 
         # define static base angel for BLUE color
-        setMessage(ser, str(135) + ':BASE@', 1)
+        setMessage(ser, str(135) + ':BASE@', 0.4)
 
         static_move_to_grip_object()
 
         # move to BLUE BIN
-        setMessage(ser, move_to_blue_bin_msg, 1)
+        setMessage(ser, move_to_blue_bin_msg, 0.4)
 
     else:
         pass
 
-    setMessage(ser, open_gripper_msg, 1)
+    setMessage(ser, open_gripper_msg, 0.4)
 
-    setMessage(ser, init_msg, 1)
+    setMessage(ser, init_msg, 0.4)
 
     print("Done sorting object colored:", color)
 

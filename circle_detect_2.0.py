@@ -14,8 +14,9 @@ def convert(max_px, xy, max_degree):
 # define the lower and upper boundaries of the colors in the HSV color space
 
 # 'orange':(0, 50, 80)
-lower = {'red':(166, 84, 141), 'green':(66, 122, 129), 'blue':(97, 100, 117), 'yellow':(23, 59, 119)} #assign new item lower['blue'] = (93, 10, 0)
-
+lower = {'red':(147,56,75), 'green':(28,15,39), 'blue':(97, 100, 117), 'yellow':(23, 59, 119)} #assign new item lower['blue'] = (93, 10, 0)
+# green (64,246)
+# red(147,56,75)
 # 'orange':(20,255,255)
 upper = {'red':(186,255,255), 'green':(86,255,255), 'blue':(117,255,255), 'yellow':(54,255,255)}
  
@@ -24,7 +25,10 @@ upper = {'red':(186,255,255), 'green':(86,255,255), 'blue':(117,255,255), 'yello
 # 'orange':(0,140,255)
 colors = {'red':(0,0,255), 'green':(0,255,0), 'blue':(255,0,0), 'yellow':(0, 255, 217)}
  
-camera = cv2.VideoCapture(0)
+# camera = cv2.VideoCapture(0)
+
+camera = cv2.VideoCapture()
+camera.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_6C5E18EF-video-index0')
 
 rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
 
@@ -33,6 +37,12 @@ while True:
     # grab the current frame
     (grabbed, frame) = camera.read()
     frame = cv2.flip(frame, 1)
+
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    contrast = 1.25
+    brightness = 1
+    frame[:,:,2] = np.clip(contrast * frame[:,:,2] + brightness, 0, 255)
+    frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
  
     #IP webcam image stream 
     #URL = 'http://10.254.254.102:8080/shot.jpg'
@@ -43,6 +53,7 @@ while True:
     # blur the frame, and convert it to the HSV
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+    cv2.normalize(frame, frame, 0, 255, cv2.NORM_MINMAX)
     #for each color in dictionary check object in frame
     for key, value in upper.items():
         # construct a mask for the color from dictionary`1, then perform
@@ -100,8 +111,14 @@ while True:
             center = rgby_circles[key].split(' ')
             cv2.circle(image, (int(center[0]), int(center[1])), 20, colors[key], 2)
             cv2.putText(image, key + " ball", (int(center[0]) - 20, int(center[1]) - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, colors[key], 2)
- 
-        cv2.imshow('Image', image)
+
+        # Using resizeWindow()
+        # cv2.resizeWindow("Resized_Window", 300, 700)
+        # cv2.resizeWindow('image', 600,600)
+        # cv2.imshow('Image', image)
+        cv2.imshow
+
+
             
         key = cv2.waitKey(0) & 0xFF
         # if the 'q' key is pressed, stop the loop

@@ -3,7 +3,6 @@ import numpy as np
 import cv2
 import time
 # import arm_control as ac
-import new_move_arm as move_arm
 
 
 def convert(max_px, xy, max_degree):
@@ -11,10 +10,8 @@ def convert(max_px, xy, max_degree):
 
 
 # define the lower and upper boundaries of the colors in the HSV color space
-# lower = {'red': (166, 84, 141), 'green': (66, 122, 129), 'blue': (
-#     97, 100, 117), 'yellow': (23, 59, 119)}
-lower = {'red': (147, 56, 75), 'green': (28, 15, 39), 'blue': (
-    97, 100, 117), 'yellow': (23, 59, 119)}  # assign new item lower['blue'] = (93, 10, 0)
+lower = {'red': (166, 84, 141), 'green': (66, 122, 129), 'blue': (
+    97, 100, 117), 'yellow': (23, 59, 119)}
 
 upper = {'red': (186, 255, 255), 'green': (86, 255, 255),
          'blue': (117, 255, 255), 'yellow': (54, 255, 255)}
@@ -23,11 +20,13 @@ colors = {'red': (0, 0, 255), 'green': (0, 255, 0),
           'blue': (255, 0, 0), 'yellow': (0, 255, 217)}
 
 # camera = cv2.VideoCapture(0)
+
 camera = cv2.VideoCapture()
 camera.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_6C5E18EF-video-index0')
 
 
 rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
+
 
 # keep looping
 while True:
@@ -73,30 +72,28 @@ while True:
             if radius > 0.5:
                 # draw the circle and centroid on the frame,
                 # then update the list of tracked points
-
                 cv2.circle(frame, (int(x), int(y)),
                            int(radius), colors[key], 2)
-                cv2.putText(frame, key + " object", (int(x-radius), int(y-radius)),
+                cv2.putText(frame, key + " ball", (int(x-radius), int(y-radius)),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.6, colors[key], 2)
-
+                print(key, value)
     # show the frame to our screen
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
-
         key = cv2.waitKey(0) & 0xFF
         # if the 'q' key is pressed, stop the loop
         if key == ord('y'):
+            detectedColors = []
             for key, value in rgby_circles.items():
-                # if (value != None):
-                #     print(value, key)
-                #     move_arm.control_arm_by_color(key)
-                #     # ac.move_arm_bot(value[0], value[1], key)
-                #     continue
-                print(value, key)
-                move_arm.control_arm_by_color(key)
-                # ac.move_arm_bot(value[0], value[1], key)
-                continue
+                if (value != None):
+                    detectedColors.append(key)
+
+            for key, value in rgby_circles.items():
+                if (value != None):
+                    print(value, key)
+                    # ac.move_arm_bot(value[0], value[1], key)
+                    break
             break
         elif key == ord('n'):
             rgby_circles = {'red': None, 'green': None,
@@ -107,6 +104,6 @@ while True:
         else:
             pass
 
-
+# cleanup the camera and close any open windows
 camera.release()
 cv2.destroyAllWindows()

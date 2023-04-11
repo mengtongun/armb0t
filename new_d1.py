@@ -38,6 +38,12 @@ while True:
     # blur the frame, and convert it to the HSV
     blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+
+    contrast = 1.25
+    brightness = 1
+    frame[:, :, 2] = np.clip(contrast * frame[:, :, 2] + brightness, 0, 255)
+    frame = cv2.cvtColor(frame, cv2.COLOR_HSV2BGR)
+
     # for each color in dictionary check object in frame
     for key, value in upper.items():
         # construct a mask for the color from dictionary, then perform

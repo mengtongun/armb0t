@@ -25,10 +25,10 @@ upper = {'red':(186,255,255), 'green':(86,255,255), 'blue':(117,255,255), 'yello
 # 'orange':(0,140,255)
 colors = {'red':(0,0,255), 'green':(0,255,0), 'blue':(255,0,0), 'yellow':(0, 255, 217)}
  
-# camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(0)
 
-camera = cv2.VideoCapture()
-camera.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_6C5E18EF-video-index0')
+# camera = cv2.VideoCapture()
+# camera.open('/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_6C5E18EF-video-index0')
 
 rgby_circles = {'red': None, 'green': None, 'blue': None, 'yellow': None}
 

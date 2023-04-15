@@ -55,7 +55,7 @@ def static_move_to_grip_object():
     setMessage(ser, str(70) + ':SHOULDER@', 0.4)
     # setMessage(ser, str(90) + ':ELBOW@', 1)
 
-    setMessage(ser, close_gripper_msg, 0.4)
+    # setMessage(ser, close_gripper_msg, 0.4)
 
     setMessage(ser, str(90) + ':ELBOW@', 0.4)
     setMessage(ser, str(50) + ':SHOULDER@', 0.4)
